@@ -1,8 +1,15 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+it('renders page section', async () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  const pageSection = await screen.findByTestId('page-section');
+  expect(pageSection).toBeInTheDocument();
+});
+
+it('renders bottom navigation', async () => {
+  render(<App />);
+  const bottomNavigation = await screen.findByTestId('bottom-navigation-section');
+  expect(bottomNavigation).toBeInTheDocument();
 });
