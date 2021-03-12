@@ -2,13 +2,14 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "display": "Create React App",
   "extends": "@tsconfig/create-react-app/tsconfig.json",
+  "include": ["src/custom.d.ts"],
 
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
     "module": "esnext",
     "target": "es5",
 
-    "allowJs": false,
+    "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
