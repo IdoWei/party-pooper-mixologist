@@ -1,29 +1,52 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import { BiDrink } from 'react-icons/bi';
-import { GiDrinkMe } from 'react-icons/gi';
+import React, { ReactElement } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import BottomNavigation from "@material-ui/core/BottomNavigation";
+import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
+import { BiDrink } from "react-icons/bi";
+import { GiDrinkMe } from "react-icons/gi";
 
 const useStyles = makeStyles({
   root: {
-    width: '100%',
-    flexBasis: 'auto',
+    width: "100%",
+    flexBasis: "auto",
     flexGrow: 0,
     flexShrink: 0,
   },
   buttonRoot: {
-      maxWidth: 'none'
-  }
+    maxWidth: "none",
+  },
 });
 
 type AppBottomNavigationProps = {
-    onTabChanged: (value: any) => void;
-}
+  onTabChanged: (value: any) => void;
+};
 
-export default function AppBottomNavigation({onTabChanged}: AppBottomNavigationProps) {
+type BottomNavigationTab = {
+  label: string;
+  testId: string;
+  icon: ReactElement;
+};
+
+export const BottomNavigationTabs: Record<string, BottomNavigationTab> = {
+  MIXER_TAB: {
+    label: "Mixer",
+    testId: "mixer-tab",
+    icon: <GiDrinkMe />,
+  },
+  DRINKS_TAB: {
+    label: "Drinks",
+    testId: "drinks-tab",
+    icon: <BiDrink />,
+  },
+};
+
+export default function AppBottomNavigation({
+  onTabChanged,
+}: AppBottomNavigationProps) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(
+    BottomNavigationTabs.MIXER_TAB.label
+  );
 
   return (
     <BottomNavigation
@@ -34,9 +57,18 @@ export default function AppBottomNavigation({onTabChanged}: AppBottomNavigationP
       }}
       showLabels
       className={classes.root}
+      data-testid="bottom-navigation-root"
     >
-      <BottomNavigationAction data-testid="mixer-tab" className={classes.buttonRoot} label="Mixer" icon={<GiDrinkMe />} />
-      <BottomNavigationAction data-testid="drinks-tab" className={classes.buttonRoot} label="Drinks" icon={<BiDrink />} />
+      {Object.values(BottomNavigationTabs).map((tab: BottomNavigationTab) => (
+        <BottomNavigationAction
+          data-testid={tab.testId}
+          className={classes.buttonRoot}
+          label={tab.label}
+          icon={tab.icon}
+          value={tab.label}
+          key={tab.label}
+        />
+      ))}
     </BottomNavigation>
   );
 }
